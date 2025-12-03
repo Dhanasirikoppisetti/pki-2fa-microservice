@@ -7,6 +7,7 @@ WORKDIR /app
 COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install fastapi uvicorn
 
 
 # ------------ Stage 2: Runtime ------------
@@ -28,8 +29,11 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 
 COPY . .
 
-RUN chmod 0644 /app/cron/log_2fa
-RUN crontab /app/cron/log_2fa
+# Give executable permissions to the cron job
+RUN chmod +x /app/cron/2fa-cron
+
+# Add cron job to crontab
+RUN crontab /app/cron/2fa-cron
 
 RUN mkdir -p /data /cron && chmod 755 /data /cron
 
