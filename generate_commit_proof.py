@@ -11,7 +11,7 @@ commit_hash = subprocess.check_output(['git', 'log', '-1', '--format=%H']).decod
 print("Commit Hash:", commit_hash)
 
 # Step 2: Load your private key
-with open('../student_private.pem', 'rb') as f:  # adjust path if needed
+with open('student_private.pem', 'rb') as f:  # adjust path if needed
     private_key = load_pem_private_key(f.read(), password=None)
 
 # Step 3: Sign commit hash with RSA-PSS
